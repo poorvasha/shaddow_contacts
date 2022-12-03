@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'add_contact.dart';
+import 'appConstant.dart';
 import 'data_objects/contact_details_obj.dart';
 import 'widgets/contact_card_view.dart';
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Shadow Contacts'),
+      home: const MyHomePage(title: "Shadow Contacts",),
     );
   }
 }
@@ -40,13 +42,12 @@ class MyHomePage extends StatefulWidget {
 // Homepage widget which exends the state of statefull homepage class
 class _MyHomePageState extends State<MyHomePage> {
   // Contact list declaration;
-  List<ContactDetailsObject> contactList = 
-  [
-    ContactDetailsObject("Poorva", "8838199417"),
-    ContactDetailsObject("Yuva", "9944937052"),
-    ContactDetailsObject("Appa", "8838199417"),
-    ContactDetailsObject("Amma", "9159032768")
-  ];
+  // List<ContactDetailsObject> contactList = [
+  //   ContactDetailsObject("Poorva", "8838199417"),
+  //   ContactDetailsObject("Yuva", "9944937052"),
+  //   ContactDetailsObject("Appa", "8838199417"),
+  //   ContactDetailsObject("Amma", "9159032768")
+  // ];
 
 // HomePage widget starts here
   @override
@@ -56,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(
             child: Text(
           widget.title,
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         )),
       ),
       body: Center(
@@ -90,9 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void onPressedAddButton() {
+  void onPressedAddButton() async{
     try {
-      
+      final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddContact()));
+      setState(() {
+        result;
+      });
     } catch (e) {
       Exception(e);
     }

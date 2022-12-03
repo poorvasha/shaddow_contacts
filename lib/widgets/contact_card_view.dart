@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../data_objects/contact_details_obj.dart';
 
 class ContactCardView extends StatefulWidget {
@@ -58,13 +59,13 @@ class _ContactCardViewState extends State<ContactCardView> {
                     SpeedDialChild(
                       elevation: 0,
                       foregroundColor: Colors.blue,
-                      onTap: onPhoneTapped,
+                      onTap:() => onPhoneTapped(widget.contactDetails.phoneNumber),
                       child: const Icon(Icons.phone_rounded),
                     ),
                     SpeedDialChild(
                         elevation: 0,
                         foregroundColor: Colors.green,
-                        onTap: onWhatsappTapped,
+                        onTap:() => onWhatsappTapped(widget.contactDetails.phoneNumber),
                         child: const Icon(Icons.whatsapp_rounded))
                   ],
                 ))
@@ -76,17 +77,28 @@ class _ContactCardViewState extends State<ContactCardView> {
 
   void onPressed() {}
 
-  void onPhoneTapped() {
+  onPhoneTapped(String phoneNumber) async {
     try {
-      
+      var url = Uri.parse("tel:$phoneNumber");
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        throw 'Could not launch $url';
+      }
     } catch (e) {
       Exception(e);
     }
   }
 
-  void onWhatsappTapped() {
+  void onWhatsappTapped(String phoneNumber) async{
     try {
-      
+      var whatsappUrl =
+         Uri.parse("whatsapp://send?phone=${"91$phoneNumber"}");
+      if (await canLaunchUrl(whatsappUrl)) {
+        await launchUrl(whatsappUrl);
+      } else {
+        throw 'Could not launch $whatsappUrl';
+      }
     } catch (e) {
       Exception(e);
     }
